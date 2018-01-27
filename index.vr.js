@@ -13,32 +13,55 @@ import {
   AmbientLight,
   DirectionalLight,
   SpotLight,
-  Model
+  Model,
+  VrButton
 } from "react-vr";
+
+const Tree = props => {
+  return (
+    <View style={props.style}>
+
+      <Sphere
+        lit
+        style={{
+          color: "green",
+          transform: [{ translateY: 0.8 }]
+        }}
+        onEnter={() => {console.log('onEnter')}}
+        onMove={(event) => {
+          console.log('onMove', event.nativeEvent)
+        }}
+      />
+      <Cylinder lit style={{ color: "brown" }} radiusBottom={0.05} radiusTop={0.05} />
+    </View>
+  );
+};
 
 export default class vr_app extends React.Component {
   render() {
     return (
       <View>
-        <Model
-          source={{
-            obj: asset("Kung_fu.obj")
-          }}
-          style={{
-            transform: [{ translate: [0, -1, -2] }],
-            color: 'orange'
-          }}
-          lit
-        />
+      <VrButton
+      onClick={() => { console.log('clicked')}}
+      style={{
+        layoutOrigin: [0.5, 0.5],
+        transform: [{ translate: [0, 0, -1] }],
+        backgroundColor: 'blue',
+        padding: 0.01
+      }}
+      >
+        <Text>update</Text>
+      </VrButton>
+        <Tree style={{ transform: [{translateZ: -3}] }} />
+        <Tree style={{ transform: [{translateZ: -3}, {translateX: 1.1}] }} />
+        <Tree style={{ transform: [{translateZ: -3}, {translateX: -1.1}] }} />
         <DirectionalLight
           intensity={4.5}
           style={{
-            translateX: -1000
+            transform: [{ translateX: -1000 }]
           }}
         />
-        <AmbientLight
-        intensity={0.1}
-      />
+        <AmbientLight intensity={0.4} />
       </View>
     );
   }
