@@ -1,62 +1,95 @@
 import React from "react";
-import { AppRegistry, asset, Pano, Text, View, Image } from "react-vr";
+import {
+  AppRegistry,
+  asset,
+  Pano,
+  Text,
+  View,
+  PointLight,
+  Sphere,
+  Box,
+  Cylinder,
+  Plane,
+  AmbientLight,
+  DirectionalLight,
+  SpotLight
+} from "react-vr";
 
 export default class vr_app extends React.Component {
   render() {
     return (
       <View>
-        <Pano source={asset("chess-world.jpg")} />
-        <View
+        <AmbientLight
+          intensity={2}
           style={{
-            width: 2,
-            height: 2.4,
-            backgroundColor: "#FBF0E5",
-            layoutOrigin: [0.5, 0.5],
-            transform: [{ translate: [0, 0, -3] }],
-            justifyContent: "space-between"
-          }}
-        >
-          <Image source={asset("Pusheen.jpg")} style={{ height: 1.2 }} />
-          <Text
-            style={{
-              color: "#333",
-              fontSize: 0.16,
-              textAlign: "center"
-            }}
-          >
-            sentient vr meow!
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              source={asset("Pusheen.jpg")}
-              style={{
-                width: 0.5,
-                height: 0.5
-              }}
-            />
-            <Image
-            source={asset("Pusheen.jpg")}
-            style={{
-              width: 0.5,
-              height: 0.5
-            }}
-          />
-          <Image
-          source={asset("Pusheen.jpg")}
-          style={{
-            width: 0.5,
-            height: 0.5
+            color: "white"
           }}
         />
-        <Image
-        source={asset("Pusheen.jpg")}
+        <DirectionalLight
+          intensity={4.5}
+          style={{
+            translateX: -1000
+          }}
+        />
+        <PointLight
+          intensity={30}
+          style={{
+            transform: [{ translateZ: -5}]
+          }}
+          distance={2}
+          decay={2}
+        />
+        <SpotLight
+        intensity={1}
         style={{
-          width: 0.5,
-          height: 0.5
+          transform: [{ translateZ: -5}]
         }}
+        distance={2}
+        decay={2}
+        angle={4} 
       />
-          </View>
-        </View>
+        <Sphere
+          style={{
+            color: "#CC6456",
+            transform: [{ translate: [-1.5, 0, -4] }]
+          }}
+          lit
+          texture={asset("mars.jpg")}
+          heightSegments={30}
+          widthSegments={30}
+          radius={0.5}
+        />
+        <Box
+          wireframe
+          dimWidth={0.5}
+          dimHeight={0.5}
+          dimDepth={0.5}
+          style={{
+            color: "#FF00FF",
+            transform: [{ translate: [-1.5, 0, -8] }]
+          }}
+        />
+        <Cylinder
+          wireframe
+          radiusBottom={0.35}
+          radiusTop={0}
+          dimHeight={0.6}
+          segments={4}
+          style={{
+            color: "#ADFF2F",
+            transform: [{ translate: [1, 0, -4] }]
+          }}
+        />
+        <Plane
+          wireframe
+          dimHeight={0.5}
+          dimWidth={0.5}
+          segments={4}
+          style={{
+            color: "#FFFF00",
+            transform: [{ translate: [2, 0, -4] }]
+          }}
+        />
       </View>
     );
   }
