@@ -14,54 +14,52 @@ import {
   DirectionalLight,
   SpotLight,
   Model,
-  VrButton
+  VrButton,
+  Animated,
+
+
 } from "react-vr";
 
-const Tree = props => {
-  return (
-    <View style={props.style}>
-
-      <Sphere
-        lit
-        style={{
-          color: "green",
-          transform: [{ translateY: 0.8 }]
-        }}
-        onEnter={() => {console.log('onEnter')}}
-        onMove={(event) => {
-          console.log('onMove', event.nativeEvent)
-        }}
-      />
-      <Cylinder lit style={{ color: "brown" }} radiusBottom={0.05} radiusTop={0.05} />
-    </View>
-  );
-};
+const AnimatedBox = Animated.createAnimatedComponent(Box); 
 
 export default class vr_app extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rotation: new Animated.Value(0)
+    }
+  }
+  componentDidMount() {
+    Animated.timing(this.state.rotation, {
+      toValue: 930,
+      duration: 10000
+    }).start();
+  }
+
   render() {
     return (
       <View>
-      <VrButton
-      onClick={() => { console.log('clicked')}}
-      style={{
-        layoutOrigin: [0.5, 0.5],
-        transform: [{ translate: [0, 0, -1] }],
-        backgroundColor: 'blue',
-        padding: 0.01
-      }}
-      >
-        <Text>update</Text>
-      </VrButton>
-        <Tree style={{ transform: [{translateZ: -3}] }} />
-        <Tree style={{ transform: [{translateZ: -3}, {translateX: 1.1}] }} />
-        <Tree style={{ transform: [{translateZ: -3}, {translateX: -1.1}] }} />
+        <AnimatedBox
+          lit
+          dimWidth={2}
+          dimHeight={2}
+          dimDepth={2}
+          style={{
+            transform: [
+              { translate: [0, 0, -10 ]},
+              {rotateY: this.state.rotation},
+              {rotateX: -40}
+            ],
+            layoutOrigin: [0.2, 0.2]
+          }}
+          />
         <DirectionalLight
           intensity={4.5}
           style={{
             transform: [{ translateX: -1000 }]
           }}
         />
-        <AmbientLight intensity={0.4} />
+        <AmbientLight intensity={0.5} />
       </View>
     );
   }
